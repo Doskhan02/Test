@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : Character
 {
     public Ray ray;
-    public float rayMaxDistance = 5;
+    public float rayMaxDistance = 7;
     public float controlSliderValue = 0.5f;
     public float horizontalMovement;
     
@@ -17,14 +17,27 @@ public class Player : Character
     }
     public override void Update()
     {
-        controlSliderValue =CharacterData.MovementSlider.value;
+        
         CheckForColliders();
+        controlSliderValue = CharacterData.MovementSlider.value;
+        if (controlSliderValue > 0.55f)
+        {
+            horizontalMovement = 0.5f;
+            CharacterData.CharacterGeoTransform.rotation = Quaternion.Euler(new Vector3(75, -90, -90));
+        }
 
-        if (controlSliderValue > 0.6f)
-            horizontalMovement = 1;
-        else if (controlSliderValue < 0.4f)
-            horizontalMovement = -1;
-        else horizontalMovement = 0;
+        else if (controlSliderValue < 0.45f)
+        {
+            horizontalMovement = -0.5f;
+            CharacterData.CharacterGeoTransform.rotation = Quaternion.Euler(new Vector3(105, -90, -90));
+        }
+
+        else
+        {
+            horizontalMovement = 0;
+            CharacterData.CharacterGeoTransform.rotation = Quaternion.Euler(new Vector3(90, -90, -90));
+        }
+        
        
 
         if (CharacterData.transform.position.x > 4.4f)
@@ -40,7 +53,6 @@ public class Player : Character
         
         movementComponent.Move(movementVector);
         movementComponent.Rotate(movementVector);
-
     }
     public void CheckForColliders()
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Lootbox : MonoBehaviour
 {
-    private float offset = 0.5f;
+    private float offset = 0.8f;
     [SerializeField] Character ownerCharacter;
     private CharacterData characterData;
     LootData lootData;
@@ -20,8 +20,8 @@ public class Lootbox : MonoBehaviour
         data.LootTransform.position =
             new Vector3(
                 characterData.transform.position.x,
-                characterData.transform.position.y,
-                characterData.transform.position.z - offset);
+                characterData.transform.position.y + offset,
+                characterData.transform.position.z);
     }
 
     public void AddLoot(LootData data)
@@ -31,8 +31,9 @@ public class Lootbox : MonoBehaviour
         data.LootTransform.position = 
             new Vector3(
                 characterData.transform.position.x,
-                characterData.transform.position.y, 
-                characterData.transform.position.z - offset);
+                characterData.transform.position.y + offset, 
+                characterData.transform.position.z);
+        data.LootTransform.rotation = Quaternion.identity;
         lootDataList.Add(data);
     }
     public void Update()
